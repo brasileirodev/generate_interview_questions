@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic ChatGPT Prompt Configuration</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        ol {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2a9df4;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        ol li {
+            margin: 10px;
+            color: #555;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; /* Added for input width consistency */
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .code-block {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+            position: relative;
+        }
+        .copy-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .code-text {
+            white-space: pre-wrap; /* Added to ensure proper wrapping of text content */
+            word-wrap: break-word; /* Added to ensure long text breaks and wraps to next line */
+        }
+        /* Added media query for responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                margin: 10px;
+            }
+            button {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Configure Your ChatGPT Prompt</h1>
+<h2>How to Use:</h2>
+        <ol>
+  <li>Enter the number of questions you want in the "Quantity" field.</li>
+  <li>Type the theme of the interview questions in the "Theme" field (e.g., "Front-end development with React").</li>
+  <li>Click the "Generate Prompt" button to create your custom prompt.</li>
+  <li>Use the "Copy Code" button to copy the generated prompt.</li>
+  <li>Paste the prompt into the ChatGPT input field and send it to receive your interview questions.</li>
+  <li><strong>Note:</strong> For correct operation, it is recommended to use ChatGPT 4.</li>
+</ol>
+
+        <form id="prompt-form">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="5" min="1" />
+
+            <label for="theme">Theme:</label>
+            <input type="text" id="theme" name="theme" value="Back-end development with Node.js" />
+
+            <button type="button" onclick="updatePrompt()">Generate Prompt</button>
+        </form>
+
+        <div class="code-block">
+            <button class="copy-button" onclick="copyToClipboard()">Copy Code</button>
+            <pre id="full-prompt" class="code-text"></pre>
+        </div>
+    </div>
+
+    <script>
+        function updatePrompt() {
+            const quantity = document.getElementById('quantity').value;
+            const theme = document.getElementById('theme').value;
+
+            const fullPrompt = `Please provide ${quantity} commonly asked interview questions and concise answers for a ${theme} developer position, formatted with the question and answer separated by '>>'.
+
+For example, if you need questions for a different theme, such as "${theme}," and you only want ${quantity} questions, you would modify the prompt like this:
+
+"Please provide ${quantity} commonly asked interview questions and concise answers for a ${theme} developer position, formatted with the question and answer separated by '>>'."
+
+And the output would be expected in the format:
+
+What is Node.js used for? >> Node.js is used for building scalable network applications.
+
+How does Node handle child threads? >> Node.js runs in a single thread but can use the child_process module to run child processes concurrently.
+
+What is an error-first callback in Node.js? >> An error-first callback is a pattern where the first argument to the callback function is reserved for an error object.
+
+What is middleware in the context of Node.js? >> Middleware is a function that has access to the request and response objects in an application's request-response cycle.
+
+What are streams in Node.js? >> Streams are objects that let you read data from a source or write data to a destination in a continuous fashion.
+
+return all in english`;
+
+            document.getElementById('full-prompt').textContent = fullPrompt;
+        }
+
+        function copyToClipboard() {
+            const promptText = document.getElementById('full-prompt').textContent;
+            navigator.clipboard.writeText(promptText)
+                .then(() => alert('Prompt copied to clipboard!'))
+                .catch(err => alert('Failed to copy text: ', err));
+        }
+
+        // Initialize with default values
+        updatePrompt();
+    </script>
+</body>
+</html>
